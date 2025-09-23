@@ -36,19 +36,14 @@ def find_bridges(num_vertices, edges_by_vertex, edges_count):
     return is_bridge
 
 
-def build_components(num_vertices, edges_by_vertex, is_bridge, is_bridge_endpoint):
+def build_components(num_vertices, edges_by_vertex, is_bridge):
     component_of = [0] * (num_vertices + 1)
 
     sys.setrecursionlimit(1_000_000)
 
-    def dfs_assign(start: int, comp_id: int) -> tuple[int, int]:
-        # Возвращает (любой представитель, представитель не-«мостовой» если есть)
+    def dfs_assign(start: int, comp_id: int) -> None:
         stack = [start]
         component_of[start] = comp_id
-        any_rep = start
-        non_bridge_rep = 0
-        if not is_bridge_endpoint[start]:
-            non_bridge_rep = start
         while stack:
             v = stack.pop()
             for to, eid in edges_by_vertex[v]:
@@ -56,22 +51,17 @@ def build_components(num_vertices, edges_by_vertex, is_bridge, is_bridge_endpoin
                     continue
                 if component_of[to] == 0:
                     component_of[to] = comp_id
-                    if non_bridge_rep == 0 and not is_bridge_endpoint[to]:
-                        non_bridge_rep = to
                     stack.append(to)
-        return any_rep, non_bridge_rep
 
     comp_count = 0
-    rep_any = {}
-    rep_safe = {}
+    reps = {}  # представитель каждой компоненты (любой вершины достаточно)
     for v in range(1, num_vertices + 1):
         if component_of[v] == 0:
             comp_count += 1
-            a, b = dfs_assign(v, comp_count)
-            rep_any[comp_count] = a
-            rep_safe[comp_count] = b if b != 0 else a
+            reps[comp_count] = v
+            dfs_assign(v, comp_count)
 
-    return comp_count, component_of, rep_safe
+    return comp_count, component_of, reps
 
 
 def pair_leaves(leaf_representatives):
@@ -79,15 +69,14 @@ def pair_leaves(leaf_representatives):
     leaf_count = len(leaf_representatives)
     if leaf_count == 0:
         return pairs
-    # Более устойчивое парное соединение: разбиваем список на две половины
-    # и соединяем попарно элементы из 1-й и 2-й половин.
-    # Это снижает шанс напечатать конец одного и того же мостового ребра.
-    half = (leaf_count + 1) // 2
-    for i in range(leaf_count // 2):
-        pairs.append((leaf_representatives[i], leaf_representatives[i + half]))
+    # Соединяем попарно: (0,1), (2,3), ...
+    for i in range(0, leaf_count // 2):
+        a = leaf_representatives[2 * i]
+        b = leaf_representatives[2 * i + 1]
+        pairs.append((a, b))
     if leaf_count % 2 == 1:
-        # Остался один лист — замыкаем его с первым из второй половины
-        pairs.append((leaf_representatives[-1], leaf_representatives[half - 1]))
+        # Нечётное число листьев: замыкаем последний с первым
+        pairs.append((leaf_representatives[-1], leaf_representatives[0]))
     return pairs
 
 
@@ -116,17 +105,8 @@ for idx in range(m):
 # 1) Найти мосты
 bridges = find_bridges(n, adj, m)
 
-# Пометим вершины, являющиеся концами мостов — их по возможности лучше не
-# использовать в качестве представителей компонент, чтобы не напечатать
-# существующее ребро.
-is_bridge_endpoint = [False] * (n + 1)
-for eid in range(m):
-    if bridges[eid]:
-        is_bridge_endpoint[edge_u[eid]] = True
-        is_bridge_endpoint[edge_v[eid]] = True
-
 # 2) Сжать граф по немостовым рёбрам в 2‑рёберно‑связные компоненты
-comp_count, comp_of, representative = build_components(n, adj, bridges, is_bridge_endpoint)
+comp_count, comp_of, representative = build_components(n, adj, bridges)
 
 # 3) Построить дерево компонент по мостам и посчитать листья
 if comp_count == 1:
