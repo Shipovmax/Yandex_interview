@@ -2,11 +2,7 @@ import sys
 
 
 class DisjointSetUnion:
-    """Класс системы непересекающихся множеств (DSU/Union-Find).
-
-    Позволяет быстро объединять множества и находить представителя множества.
-    Используются эвристики: сжатие путей и объединение по размеру.
-    """
+    
     def __init__(self, n: int) -> None:
         self.parent = list(range(n))
         self.size = [1] * n
@@ -45,6 +41,7 @@ def main() -> None:
     # Для каждого слова запоминаем индекс первого запроса, где оно встречалось.
     word_owner: dict[str, int] = {}
 
+    # Store for second pass: for each word, the index of its first owner
     for i in range(n):
         # строка с Mi — количеством слов в i-м запросе (можно не использовать напрямую)
         m = int(data[line_idx].strip())
@@ -68,7 +65,9 @@ def main() -> None:
         comp_word_count[root] = comp_word_count.get(root, 0) + 1
 
     # Считаем количество компонент по корням всех запросов.
-    seen_roots = {dsu.find(i) for i in range(n)}
+    seen_roots = set()
+    for i in range(n):
+        seen_roots.add(dsu.find(i))
     num_components = len(seen_roots)
 
     # Размер наибольшего контекста — максимум количества уникальных слов в компоненте.
