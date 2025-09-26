@@ -1,0 +1,206 @@
+[
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "array",
+        "importPath": "array",
+        "description": "array",
+        "isExtraImport": true,
+        "detail": "array",
+        "documentation": {}
+    },
+    {
+        "label": "heappush",
+        "importPath": "heapq",
+        "description": "heapq",
+        "isExtraImport": true,
+        "detail": "heapq",
+        "documentation": {}
+    },
+    {
+        "label": "heappop",
+        "importPath": "heapq",
+        "description": "heapq",
+        "isExtraImport": true,
+        "detail": "heapq",
+        "documentation": {}
+    },
+    {
+        "label": "solve",
+        "kind": 2,
+        "importPath": "A. Сокровища островов пирата Дино",
+        "description": "A. Сокровища островов пирата Дино",
+        "peekOfCode": "def solve() -> None:\n    it = iter(map(int, sys.stdin.read().split()))\n    try:\n        n, m = next(it), next(it)\n    except StopIteration:\n        print(0)\n        return\n    val = [next(it) for _ in range(n)]\n    # Смежность как битмаски: adj[v] имеет единицы на позициях соседей v\n    adj = [0] * n",
+        "detail": "A. Сокровища островов пирата Дино",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "B. Отпуск Дино и затопление островов",
+        "description": "B. Отпуск Дино и затопление островов",
+        "peekOfCode": "def main() -> None:\n    # Быстрый ввод всех чисел одним куском\n    data = list(map(int, sys.stdin.buffer.read().split()))\n    if not data:\n        return\n    it = iter(data)\n    n = next(it)\n    m = next(it)\n    grid = [[0] * m for _ in range(n)]\n    for i in range(n):",
+        "detail": "B. Отпуск Дино и затопление островов",
+        "documentation": {}
+    },
+    {
+        "label": "DisjointSetUnion",
+        "kind": 6,
+        "importPath": "C. Обогащение контекста",
+        "description": "C. Обогащение контекста",
+        "peekOfCode": "class DisjointSetUnion:\n    def __init__(self, n: int) -> None:\n        self.parent = list(range(n))\n        self.size = [1] * n\n    def find(self, x: int) -> int:\n        \"\"\"Возвращает корень множества элемента x с сжатием путей.\"\"\"\n        while self.parent[x] != x:\n            self.parent[x] = self.parent[self.parent[x]]\n            x = self.parent[x]\n        return x",
+        "detail": "C. Обогащение контекста",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "C. Обогащение контекста",
+        "description": "C. Обогащение контекста",
+        "peekOfCode": "def main() -> None:\n    data = sys.stdin.read().splitlines()\n    if not data:\n        return\n    line_idx = 0\n    n = int(data[line_idx].strip())\n    line_idx += 1\n    dsu = DisjointSetUnion(n)\n    # Первая фаза: объединяем запросы, которые делят хотя бы одно слово.\n    # Для каждого слова запоминаем индекс первого запроса, где оно встречалось.",
+        "detail": "C. Обогащение контекста",
+        "documentation": {}
+    },
+    {
+        "label": "solve",
+        "kind": 2,
+        "importPath": "D. Минимальное время разрушения платформ",
+        "description": "D. Минимальное время разрушения платформ",
+        "peekOfCode": "def solve() -> None:\n    data = sys.stdin.read().strip().split()\n    if not data:\n        return\n    it = iter(data)\n    n = int(next(it))\n    heights = [int(next(it)) for _ in range(n)]\n    # Ответы по умолчанию — −1 (если подходящей платформы справа нет)\n    answers = [-1] * n\n    # Две монотонные убывающие по высоте стека для каждой чётности индекса:",
+        "detail": "D. Минимальное время разрушения платформ",
+        "documentation": {}
+    },
+    {
+        "label": "find_bridges",
+        "kind": 2,
+        "importPath": "E. Датацентры",
+        "description": "E. Датацентры",
+        "peekOfCode": "def find_bridges(num_vertices, edges_by_vertex, edges_count):\n    sys.setrecursionlimit(1_000_000)\n    time_in = [-1] * (num_vertices + 1)\n    lowlink = [0] * (num_vertices + 1)\n    visited = [False] * (num_vertices + 1)\n    # Массив отметок «мост/не мост» по id ребра\n    is_bridge = [False] * edges_count\n    time_counter = 0\n    def dfs(vertex: int, parent_edge_id: int) -> None:\n        nonlocal time_counter",
+        "detail": "E. Датацентры",
+        "documentation": {}
+    },
+    {
+        "label": "build_components",
+        "kind": 2,
+        "importPath": "E. Датацентры",
+        "description": "E. Датацентры",
+        "peekOfCode": "def build_components(num_vertices, edges_by_vertex, is_bridge):\n    component_of = [0] * (num_vertices + 1)\n    sys.setrecursionlimit(1_000_000)\n    def dfs_assign(start: int, comp_id: int) -> None:\n        stack = [start]\n        component_of[start] = comp_id\n        while stack:\n            v = stack.pop()\n            for to, eid in edges_by_vertex[v]:\n                if is_bridge[eid]:",
+        "detail": "E. Датацентры",
+        "documentation": {}
+    },
+    {
+        "label": "pair_leaves",
+        "kind": 2,
+        "importPath": "E. Датацентры",
+        "description": "E. Датацентры",
+        "peekOfCode": "def pair_leaves(leaf_representatives):\n    pairs = []\n    leaf_count = len(leaf_representatives)\n    if leaf_count == 0:\n        return pairs\n    # Соединяем попарно: (0,1), (2,3), ...\n    for i in range(0, leaf_count // 2):\n        a = leaf_representatives[2 * i]\n        b = leaf_representatives[2 * i + 1]\n        pairs.append((a, b))",
+        "detail": "E. Датацентры",
+        "documentation": {}
+    },
+    {
+        "label": "data",
+        "kind": 5,
+        "importPath": "E. Датацентры",
+        "description": "E. Датацентры",
+        "peekOfCode": "data = sys.stdin.buffer.read().split()\nif not data:\n    # No input provided\n    print(0)\n    sys.exit(0)\nit = iter(map(int, data))\nn = next(it)\nm = next(it)\nedge_u = [0] * m\nedge_v = [0] * m",
+        "detail": "E. Датацентры",
+        "documentation": {}
+    },
+    {
+        "label": "it",
+        "kind": 5,
+        "importPath": "E. Датацентры",
+        "description": "E. Датацентры",
+        "peekOfCode": "it = iter(map(int, data))\nn = next(it)\nm = next(it)\nedge_u = [0] * m\nedge_v = [0] * m\nadj = [[] for _ in range(n + 1)]\nfor idx in range(m):\n    u = next(it)\n    v = next(it)\n    edge_u[idx] = u",
+        "detail": "E. Датацентры",
+        "documentation": {}
+    },
+    {
+        "label": "n",
+        "kind": 5,
+        "importPath": "E. Датацентры",
+        "description": "E. Датацентры",
+        "peekOfCode": "n = next(it)\nm = next(it)\nedge_u = [0] * m\nedge_v = [0] * m\nadj = [[] for _ in range(n + 1)]\nfor idx in range(m):\n    u = next(it)\n    v = next(it)\n    edge_u[idx] = u\n    edge_v[idx] = v",
+        "detail": "E. Датацентры",
+        "documentation": {}
+    },
+    {
+        "label": "m",
+        "kind": 5,
+        "importPath": "E. Датацентры",
+        "description": "E. Датацентры",
+        "peekOfCode": "m = next(it)\nedge_u = [0] * m\nedge_v = [0] * m\nadj = [[] for _ in range(n + 1)]\nfor idx in range(m):\n    u = next(it)\n    v = next(it)\n    edge_u[idx] = u\n    edge_v[idx] = v\n    adj[u].append((v, idx))",
+        "detail": "E. Датацентры",
+        "documentation": {}
+    },
+    {
+        "label": "edge_u",
+        "kind": 5,
+        "importPath": "E. Датацентры",
+        "description": "E. Датацентры",
+        "peekOfCode": "edge_u = [0] * m\nedge_v = [0] * m\nadj = [[] for _ in range(n + 1)]\nfor idx in range(m):\n    u = next(it)\n    v = next(it)\n    edge_u[idx] = u\n    edge_v[idx] = v\n    adj[u].append((v, idx))\n    adj[v].append((u, idx))",
+        "detail": "E. Датацентры",
+        "documentation": {}
+    },
+    {
+        "label": "edge_v",
+        "kind": 5,
+        "importPath": "E. Датацентры",
+        "description": "E. Датацентры",
+        "peekOfCode": "edge_v = [0] * m\nadj = [[] for _ in range(n + 1)]\nfor idx in range(m):\n    u = next(it)\n    v = next(it)\n    edge_u[idx] = u\n    edge_v[idx] = v\n    adj[u].append((v, idx))\n    adj[v].append((u, idx))\n# 1) Найти мосты",
+        "detail": "E. Датацентры",
+        "documentation": {}
+    },
+    {
+        "label": "adj",
+        "kind": 5,
+        "importPath": "E. Датацентры",
+        "description": "E. Датацентры",
+        "peekOfCode": "adj = [[] for _ in range(n + 1)]\nfor idx in range(m):\n    u = next(it)\n    v = next(it)\n    edge_u[idx] = u\n    edge_v[idx] = v\n    adj[u].append((v, idx))\n    adj[v].append((u, idx))\n# 1) Найти мосты\nbridges = find_bridges(n, adj, m)",
+        "detail": "E. Датацентры",
+        "documentation": {}
+    },
+    {
+        "label": "bridges",
+        "kind": 5,
+        "importPath": "E. Датацентры",
+        "description": "E. Датацентры",
+        "peekOfCode": "bridges = find_bridges(n, adj, m)\n# 2) Сжать граф по немостовым рёбрам в 2‑рёберно‑связные компоненты\ncomp_count, comp_of, representative = build_components(n, adj, bridges)\n# 3) Построить дерево компонент по мостам и посчитать листья\nif comp_count == 1:\n    print(0)\n    sys.exit(0)\ndegree = [0] * (comp_count + 1)\nfor eid in range(m):\n    if not bridges[eid]:",
+        "detail": "E. Датацентры",
+        "documentation": {}
+    },
+    {
+        "label": "degree",
+        "kind": 5,
+        "importPath": "E. Датацентры",
+        "description": "E. Датацентры",
+        "peekOfCode": "degree = [0] * (comp_count + 1)\nfor eid in range(m):\n    if not bridges[eid]:\n        continue\n    cu = comp_of[edge_u[eid]]\n    cv = comp_of[edge_v[eid]]\n    if cu == cv:\n        continue\n    degree[cu] += 1\n    degree[cv] += 1",
+        "detail": "E. Датацентры",
+        "documentation": {}
+    },
+    {
+        "label": "leaf_reps",
+        "kind": 5,
+        "importPath": "E. Датацентры",
+        "description": "E. Датацентры",
+        "peekOfCode": "leaf_reps = [representative[i] for i in range(1, comp_count + 1) if degree[i] == 1]\npairs = pair_leaves(leaf_reps)\nprint(len(pairs))\nfor a, b in pairs:\n    print(a, b)",
+        "detail": "E. Датацентры",
+        "documentation": {}
+    },
+    {
+        "label": "pairs",
+        "kind": 5,
+        "importPath": "E. Датацентры",
+        "description": "E. Датацентры",
+        "peekOfCode": "pairs = pair_leaves(leaf_reps)\nprint(len(pairs))\nfor a, b in pairs:\n    print(a, b)",
+        "detail": "E. Датацентры",
+        "documentation": {}
+    }
+]
