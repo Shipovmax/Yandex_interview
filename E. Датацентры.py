@@ -7,7 +7,6 @@ def find_bridges(num_vertices, edges_by_vertex, edges_count):
     time_in = [-1] * (num_vertices + 1)
     lowlink = [0] * (num_vertices + 1)
     visited = [False] * (num_vertices + 1)
-    # Массив отметок «мост/не мост» по id ребра
     is_bridge = [False] * edges_count
 
     time_counter = 0
@@ -54,7 +53,7 @@ def build_components(num_vertices, edges_by_vertex, is_bridge):
                     stack.append(to)
 
     comp_count = 0
-    reps = {}  # представитель каждой компоненты (любой вершины достаточно)
+    reps = {}
     for v in range(1, num_vertices + 1):
         if component_of[v] == 0:
             comp_count += 1
@@ -69,20 +68,17 @@ def pair_leaves(leaf_representatives):
     leaf_count = len(leaf_representatives)
     if leaf_count == 0:
         return pairs
-    # Соединяем попарно: (0,1), (2,3), ...
     for i in range(0, leaf_count // 2):
         a = leaf_representatives[2 * i]
         b = leaf_representatives[2 * i + 1]
         pairs.append((a, b))
     if leaf_count % 2 == 1:
-        # Нечётное число листьев: замыкаем последний с первым
         pairs.append((leaf_representatives[-1], leaf_representatives[0]))
     return pairs
 
 
 data = sys.stdin.buffer.read().split()
 if not data:
-    # No input provided
     print(0)
     sys.exit(0)
 
@@ -102,13 +98,10 @@ for idx in range(m):
     adj[u].append((v, idx))
     adj[v].append((u, idx))
 
-# 1) Найти мосты
 bridges = find_bridges(n, adj, m)
 
-# 2) Сжать граф по немостовым рёбрам в 2‑рёберно‑связные компоненты
 comp_count, comp_of, representative = build_components(n, adj, bridges)
 
-# 3) Построить дерево компонент по мостам и посчитать листья
 if comp_count == 1:
     print(0)
     sys.exit(0)
