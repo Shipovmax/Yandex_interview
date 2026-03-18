@@ -1,17 +1,17 @@
-# Yandex Interview
+# Yandex Interview Prep
 
-**Коротко:** этот репозиторий основан на реальном техническом собеседовании в **Яндекс**. Здесь собраны задачи, решения и пояснения, которые реально встречались на интервью.
+**In short:** this repository is based on real technical interviews at **Yandex**. It contains problems, solutions, and explanations that were actually encountered during interviews.
 
 ---
 
-## Описание
+## Description
 
-Репозиторий включает:
+The repository includes:
 
-* Задачи по алгоритмам и структурам данных (Python)
-* Решения с комментариями и краткими разборками
-* Минимум теории, максимум практики
+* Algorithm and Data Structure tasks (Python)
+* Solutions with comments and brief analyses
+* Minimum theory, maximum practice
 
-Цель — дать возможность прочувствовать формат настоящего собеседования и потренировать алгоритмическое мышление.
+The goal is to provide an opportunity to experience the format of a real interview and to train algorithmic thinking.
 
 ---
