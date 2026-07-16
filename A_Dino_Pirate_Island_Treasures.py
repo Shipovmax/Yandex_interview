@@ -7,8 +7,10 @@ def solve() -> None:
     Solves the 'Dino the Pirate's Island Treasures' problem using Dynamic Programming with Bitmasking.
     The goal is to find the maximum total value collected starting from island 1,
     visiting each island at most once.
-    
-    Complexity: O(n * 2^n) time and space.
+
+    Complexity: O(n^2 * 2^n) time (2^(n-1) masks, each expanding into up to n
+    states, each state scanning up to n neighbor bits) and O(n * 2^n) space
+    (the DP table has one entry per (mask, last_island) pair).
     """
     it = iter(map(int, sys.stdin.read().split()))
     try:

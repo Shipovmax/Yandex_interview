@@ -6,6 +6,9 @@ def solve() -> None:
     Solves Task D: Minimum Platform Destruction Time.
     Finds the nearest platform 'j' to the right of 'i' such that h[j] > h[i] and j has the same parity as i.
     Uses a monotonic stack approach for both even and odd indices to achieve O(N) time complexity.
+
+    Complexity: O(N) time — each index is pushed and popped from its parity
+    stack at most once. Space: O(N) for the two stacks and the result array.
     """
     input_data = sys.stdin.read().split()
     if not input_data:

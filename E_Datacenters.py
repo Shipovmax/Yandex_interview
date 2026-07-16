@@ -7,6 +7,9 @@ def find_bridges(num_vertices: int, adj: list[list[tuple[int, int]]], num_edges:
     """
     Finds all bridges in the graph using Tarjan's bridge-finding algorithm.
     Returns a boolean list where True indicates the edge with that index is a bridge.
+
+    Complexity: O(V + E) time and space — a single DFS visits every vertex
+    once and every edge twice (once from each endpoint).
     """
     time_in = [-1] * (num_vertices + 1)
     lowlink = [0] * (num_vertices + 1)
@@ -36,9 +39,19 @@ def find_bridges(num_vertices: int, adj: list[list[tuple[int, int]]], num_edges:
     
     return is_bridge
 
-def get_2_edge_connected_components(num_vertices: int, adj: list[list[tuple[int, int]]], is_bridge: list[bool]):
+def get_2_edge_connected_components(
+    num_vertices: int, adj: list[list[tuple[int, int]]], is_bridge: list[bool]
+) -> tuple[int, list[int], dict[int, int]]:
     """
     Partitions the graph into 2-edge-connected components by removing all bridges.
+
+    Complexity: O(V + E) time and space — an iterative DFS/BFS over non-bridge
+    edges visits every vertex once and every edge at most twice.
+
+    Returns:
+        A tuple of (component_count, component_id, representatives) where
+        component_id maps each vertex to its 1-indexed component id, and
+        representatives maps each component id to one vertex belonging to it.
     """
     component_id = [0] * (num_vertices + 1)
     comp_count = 0
@@ -65,6 +78,10 @@ def solve() -> None:
     """
     Main logic to solve the Datacenters problem.
     Finds leaf components in the 2-edge-connected component tree and pairs them up.
+
+    Complexity: O(V + E) time and space — bridge-finding and component
+    compression are each linear, and the leaf-pairing step is linear in the
+    number of leaf components (which is at most V).
     """
     input_data = sys.stdin.buffer.read().split()
     if not input_data:

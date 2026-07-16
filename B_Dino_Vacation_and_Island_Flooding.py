@@ -10,6 +10,11 @@ def main() -> None:
     Initially, all cells with height 0 are flooded.
     
     This is solved using a variation of Dijkstra's algorithm.
+
+    Complexity: O(N*M * log(N*M)) time — each of the N*M cells is pushed onto
+    the heap at most once per relaxation from its up to 4 neighbors, and each
+    heap operation costs O(log(N*M)). Space: O(N*M) for the grid, flood_time
+    table, and heap.
     """
     input_data = sys.stdin.buffer.read().split()
     if not input_data:

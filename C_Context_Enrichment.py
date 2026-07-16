@@ -34,6 +34,11 @@ def main() -> None:
     Groups prompts that share at least one word and finds:
     1. Total number of contexts.
     2. Number of unique words in the largest context.
+
+    Complexity: O(W * alpha(N)) time, where W is the total number of word
+    occurrences across all prompts and alpha is the inverse Ackermann
+    function from DSU union/find with path compression and union by size.
+    Space: O(N + W) for the DSU arrays and the word-to-prompt map.
     """
     # Read all input at once for speed
     input_lines = sys.stdin.read().splitlines()
