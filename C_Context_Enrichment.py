@@ -6,7 +6,7 @@ class DisjointSetUnion:
     Standard Disjoint Set Union (DSU) data structure with path compression and union by size.
     Used to efficiently group prompts into connected components.
     """
-    
+
     def __init__(self, n: int) -> None:
         self.parent = list(range(n))
         self.size = [1] * n
@@ -53,10 +53,10 @@ def main() -> None:
         return
 
     dsu = DisjointSetUnion(num_prompts)
-    
+
     # Map words to the index of the first prompt that contains them
     word_to_prompt_map: dict[str, int] = {}
-    
+
     # Store all unique words found in each prompt
     unique_words_in_prompts = []
 
@@ -88,9 +88,9 @@ def main() -> None:
     unique_contexts = set()
     for i in range(num_prompts):
         unique_contexts.add(dsu.find(i))
-    
+
     num_contexts = len(unique_contexts)
-    
+
     # Find the largest context size
     max_context_size = 0
     if component_word_count:

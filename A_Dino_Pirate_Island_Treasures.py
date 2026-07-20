@@ -38,7 +38,7 @@ def solve() -> None:
     # We only care about masks that include the starting island (island 0)
     # Mask format: bit 0 is always 1. Total states: (2^(n-1)) * n
     num_masks = 1 << (n - 1)
-    dp = array('i', [UNVISITED]) * (num_masks * n)
+    dp = array("i", [UNVISITED]) * (num_masks * n)
 
     def get_dp_index(mask: int, last_island: int) -> int:
         # Since bit 0 is always 1, we can right shift to save space
@@ -57,25 +57,25 @@ def solve() -> None:
             current_total = dp[base_idx + v]
             if current_total == UNVISITED:
                 continue
-            
+
             # Update overall maximum
             if current_total > max_treasure:
                 max_treasure = current_total
-            
+
             # Try moving to an unvisited adjacent island
             neighbors_to_visit = adj[v] & ~mask
             while neighbors_to_visit:
                 # Get the lowest set bit
                 bit = neighbors_to_visit & -neighbors_to_visit
                 u = bit.bit_length() - 1
-                
+
                 new_mask = mask | bit
                 new_pos = get_dp_index(new_mask, u)
                 new_value = current_total + values[u]
-                
+
                 if new_value > dp[new_pos]:
                     dp[new_pos] = new_value
-                
+
                 # Remove the bit we just processed
                 neighbors_to_visit ^= bit
 

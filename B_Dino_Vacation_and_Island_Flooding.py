@@ -1,14 +1,14 @@
 import sys
-from heapq import heappush, heappop
+from heapq import heappop, heappush
 
 
 def main() -> None:
     """
     Calculates the flooding time for each cell in an n x m grid.
-    Water level rises by 1 meter per minute. 
+    Water level rises by 1 meter per minute.
     A cell floods if the water level reaches its height AND water can flow to it from a flooded neighbor.
     Initially, all cells with height 0 are flooded.
-    
+
     This is solved using a variation of Dijkstra's algorithm.
 
     Complexity: O(N*M * log(N*M)) time — each of the N*M cells is pushed onto
@@ -20,7 +20,7 @@ def main() -> None:
     if not input_data:
         return
     it = iter(map(int, input_data))
-    
+
     try:
         n = next(it)
         m = next(it)
@@ -48,7 +48,7 @@ def main() -> None:
                 heappush(heap, (0, i, j))
 
     # If there is no water initially, the flood cannot start according to the rules (water spreads from 0 cells).
-    # However, the problem description implies water rises everywhere. 
+    # However, the problem description implies water rises everywhere.
     # Let's check the logic: "Water spreads only to adjacent cells".
     # This means if an island is completely surrounded by land, it only floods when the water reaches it from the edge or a 0-cell.
     if not heap:
@@ -64,10 +64,10 @@ def main() -> None:
 
     while heap:
         cur_t, x, y = heappop(heap)
-        
+
         if cur_t > flood_time[x][y]:
             continue
-            
+
         for dx, dy in directions:
             nx, ny = x + dx, y + dy
             if 0 <= nx < n and 0 <= ny < m:
@@ -82,7 +82,7 @@ def main() -> None:
     output = []
     for i in range(n):
         output.append(" ".join(map(str, flood_time[i])))
-    
+
     sys.stdout.write("\n".join(output) + "\n")
 
 

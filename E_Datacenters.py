@@ -3,7 +3,10 @@ import sys
 # Increase recursion depth for deep DFS trees in large networks
 sys.setrecursionlimit(200_000)
 
-def find_bridges(num_vertices: int, adj: list[list[tuple[int, int]]], num_edges: int) -> list[bool]:
+
+def find_bridges(
+    num_vertices: int, adj: list[list[tuple[int, int]]], num_edges: int
+) -> list[bool]:
     """
     Finds all bridges in the graph using Tarjan's bridge-finding algorithm.
     Returns a boolean list where True indicates the edge with that index is a bridge.
@@ -36,8 +39,9 @@ def find_bridges(num_vertices: int, adj: list[list[tuple[int, int]]], num_edges:
     for i in range(1, num_vertices + 1):
         if time_in[i] == -1:
             dfs(i)
-    
+
     return is_bridge
+
 
 def get_2_edge_connected_components(
     num_vertices: int, adj: list[list[tuple[int, int]]], is_bridge: list[bool]
@@ -62,7 +66,7 @@ def get_2_edge_connected_components(
             comp_count += 1
             component_id[i] = comp_count
             representatives[comp_count] = i
-            
+
             # BFS/Iterative DFS to avoid recursion depth issues for component assignment
             stack = [i]
             while stack:
@@ -71,8 +75,9 @@ def get_2_edge_connected_components(
                     if not is_bridge[edge_id] and component_id[v] == 0:
                         component_id[v] = comp_count
                         stack.append(v)
-                        
+
     return comp_count, component_id, representatives
+
 
 def solve() -> None:
     """
@@ -86,7 +91,7 @@ def solve() -> None:
     input_data = sys.stdin.buffer.read().split()
     if not input_data:
         return
-    
+
     it = iter(map(int, input_data))
     try:
         n = next(it)
@@ -107,7 +112,9 @@ def solve() -> None:
     is_bridge = find_bridges(n, adj, m)
 
     # 2. Group vertices into 2-edge-connected components
-    comp_count, component_id, representatives = get_2_edge_connected_components(n, adj, is_bridge)
+    comp_count, component_id, representatives = get_2_edge_connected_components(
+        n, adj, is_bridge
+    )
 
     if comp_count == 1:
         print(0)
@@ -123,13 +130,15 @@ def solve() -> None:
             comp_degree[cv] += 1
 
     # 4. Identify leaf components (degree 1)
-    leaf_representatives = [representatives[i] for i in range(1, comp_count + 1) if comp_degree[i] == 1]
+    leaf_representatives = [
+        representatives[i] for i in range(1, comp_count + 1) if comp_degree[i] == 1
+    ]
 
     # 5. Pair up leaves to create a 2-edge-connected graph
     # Total new cables: ceil(number_of_leaves / 2)
     num_leaves = len(leaf_representatives)
     new_connections = []
-    
+
     # Simple pairing strategy: connect leaf i with leaf i + num_leaves/2
     # This works better than adjacent pairing for ensuring connectivity in some cases
     mid = (num_leaves + 1) // 2
@@ -142,6 +151,7 @@ def solve() -> None:
     print(len(new_connections))
     for u, v in new_connections:
         print(f"{u} {v}")
+
 
 if __name__ == "__main__":
     solve()
